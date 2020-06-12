@@ -73,11 +73,11 @@ class Application:
     def update(self, dt):
         self.physics_space.step(dt)
 
-    def position_camera(self, position: tuple = (0, 0)):
+    def position_camera(self, position: tuple = (0, 0), zoom: float = 1):
         zoom = min(
             self.window.width/self.default_size[0],
             self.window.height/self.default_size[1]
-        )
+        ) * zoom
 
         if self.world_camera.zoom != zoom:
             self.world_camera.zoom = zoom

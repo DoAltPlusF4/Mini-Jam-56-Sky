@@ -89,17 +89,20 @@ class Application:
         x = -self.window.width//2/zoom
         y = -self.window.height//2/zoom
 
-        x += position[0]
-        y += position[1]
+        target_x = position[0]
+        target_y = position[1]
 
         if min_pos[0] is not None:
-            x = max(x, min_pos[0])
+            target_x = max(target_x, min_pos[0])
         if min_pos[1] is not None:
-            y = max(y, min_pos[1])
+            target_y = max(target_y, min_pos[1])
         if max_pos[0] is not None:
-            x = min(x, max_pos[0])
+            target_x = min(target_x, max_pos[0])
         if max_pos[1] is not None:
-            y = min(y, max_pos[1])
+            target_y = min(target_y, max_pos[1])
+
+        x += target_x
+        y += target_y
 
         if self.world_camera.position != (x, y):
             self.world_camera.position = (x, y)

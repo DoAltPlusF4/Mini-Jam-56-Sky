@@ -1,4 +1,5 @@
 import json
+import random
 
 import pyglet
 import pymunk
@@ -16,7 +17,7 @@ class Application(engine.Application):
             default_size=(800, 550),
             minimum_size=(300, 170),
             fps_counter=True,
-            world_layers=["bg", "player"],
+            world_layers=["player", "floor"],
             ui_layers=[]
         )
         self._debug_mode = True
@@ -25,21 +26,11 @@ class Application(engine.Application):
         self.physics_space.gravity = (0, -100)
         self.physics_space.damping = 0.5
 
-        self.floor = engine.Entity(
-            position=(0, -50),
-            body_type=pymunk.Body.STATIC,
-            collider={
-                "type": "rect",
-                "x": 0, "y": 0,
-                "width": 200,
-                "height": 25,
-                "radius": 0,
-                "collision_type": 0
-            }
-        )
-        self.floor.space = self.physics_space
-        self.floor.colliders[0].friction = 0.5
-        self.floor.create_sprite(self.resources["floor"], (-100, -12.5), batch=self.world_batch)
+        self.floor = []
+        for x in range(-2, 3):
+            floor = source.Floor(x, random.randint(0, 1), self.physics_space)
+            floor.create_sprite(self)
+            self.floor.append(floor)
 
         self.player = source.Player(self.physics_space)
         self.window.push_handlers(self.player)
@@ -61,7 +52,10 @@ class Application(engine.Application):
     def update(self, dt):
         super().update(dt)
         self.player.update(dt)
-        self.position_camera(position=self.player.position, zoom=2)
+        self.position_camera(
+            position=self.player.position, zoom=2,
+            min_pos=(None, -50)
+        )
 
 
 if __name__ == "__main__":

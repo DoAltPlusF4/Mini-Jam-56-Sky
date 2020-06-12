@@ -24,7 +24,7 @@ class Floor(engine.Entity):
         self.application = application
         super().create_sprite(
             self.application.resources["floor"], 
-            (-128, -112), 
+            (-128, -102), 
             batch=self.application.world_batch,
             group=self.application.world_layers["floor"]
         )

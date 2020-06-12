@@ -1,0 +1,21 @@
+{
+    "frame": [
+        32,
+        32
+    ],
+    "max_length": 2,
+    "animations": [
+        {
+            "alias": "walk",
+            "length": 2,
+            "frame_length": 0.25,
+            "loop": true
+        },
+        {
+            "alias": "idle",
+            "length": 2,
+            "frame_length": 0.425,
+            "loop": true
+        }
+    ]
+}

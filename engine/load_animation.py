@@ -10,8 +10,8 @@ def load_animation(image, data):
     for a in range(len(data["animations"])):
         animation_data = data["animations"][a]
         frames = []
+        frame_length = data["animations"][a]["frame_length"]
         for i in range(animation_data["length"]):
-            frame_length = data["animations"][a]["frame_length"]
             frames.append(
                 sprite_sheet[(a, i)]
             )

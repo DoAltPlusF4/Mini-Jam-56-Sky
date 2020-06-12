@@ -3,7 +3,7 @@ from engine import key
 import pyglet
 
 SPEED = 150
-JUMP_VELOCITY = 75
+JUMP_VELOCITY = 120
 
 class Player(engine.Entity):
     _state = "idle"
@@ -67,7 +67,7 @@ class Player(engine.Entity):
             if self.application.key_handler[key.SPACE] or self.application.key_handler[key.W]:
                 pass
             else:
-                self.apply_force_at_local_point((0, -250), (0, 0))
+                self.apply_force_at_local_point((0, -500), (0, 0))
             
 
         if self.controls["left"] and not self.controls["right"]:
@@ -86,10 +86,16 @@ class Player(engine.Entity):
             self.colliders[0].friction = 1
         else:
             self.state = "idle"
-            self.colliders[0].friction = 10
+            self.colliders[0].friction = 15
         
-        if self.velocity.y != 0:
-            vx /= 10
+        if self.velocity.x > 0 and self.controls["left"]:
+            self.colliders[0].friction = 15
+        elif self.velocity.x < 0 and self.controls["right"]:
+            self.colliders[0].friction = 15
+
+
+        self.velocity = (max(min(self.velocity.x, SPEED/2), -SPEED/2), self.velocity.y)
+        print(self.velocity.x)
 
         self.apply_force_at_local_point((vx, 0), (0, 0))
         

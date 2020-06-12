@@ -22,7 +22,8 @@ class Application(engine.Application):
         self._debug_mode = True
         pyglet.gl.glClearColor(0.25, 0.5, 1, 1)
 
-        self.physics_space.gravity = (0, -64)
+        self.physics_space.gravity = (0, -100)
+        self.physics_space.damping = 0.5
 
         self.floor = engine.Entity(
             position=(0, -50),
@@ -38,6 +39,7 @@ class Application(engine.Application):
         )
         self.floor.space = self.physics_space
         self.floor.colliders[0].friction = 0.5
+        self.floor.create_sprite(self.resources["floor"], (-100, -12.5), batch=self.world_batch)
 
         self.player = source.Player(self.physics_space)
         self.window.push_handlers(self.player)
@@ -53,6 +55,8 @@ class Application(engine.Application):
         with open("resources/sprites/player.json", "r") as f:
             player_data = json.load(f)
         self.resources["player"] = engine.load_animation(player_img, player_data)
+
+        self.resources["floor"] = pyglet.resource.image("resources/sprites/floor.png")
     
     def update(self, dt):
         super().update(dt)

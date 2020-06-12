@@ -10,6 +10,7 @@ from .collider_dicts import dict_to_collider
 class Entity(pymunk.Body):
     _space = None
     _active = True
+    _flip = False
 
     def __init__(
         self,
@@ -66,23 +67,33 @@ class Entity(pymunk.Body):
 
     def create_sprite(self, image, offset, batch=None, group=None):
         self.sprite_offset = pymunk.Vec2d(offset)
-        if isinstance(image, pyglet.shapes._ShapeBase):
-            self.sprite = image
-            self.sprite.batch = batch
-            self.sprite.group = group
-            self.sprite.x = self.position.x+self.sprite_offset.x
-            self.sprite.y = self.position.y+self.sprite_offset.y
-        else:
-            self.sprite = pyglet.sprite.Sprite(
-                image,
-                x=self.position.x+self.sprite_offset.x,
-                y=self.position.y+self.sprite_offset.y,
-                batch=batch,
-                group=group
-            )
+        self.sprite = pyglet.sprite.Sprite(
+            image,
+            x=self.position.x+self.sprite_offset.x,
+            y=self.position.y+self.sprite_offset.y,
+            batch=batch,
+            group=group
+        )
+
+    @property
+    def flip(self):
+        return self._flip
+
+    @flip.setter
+    def flip(self, flip):
+        if self._flip != flip:
+            if flip:
+                self.sprite.scale_x = -(abs(self.sprite.scale_x))
+            else:
+                self.sprite.scale_x = abs(self.sprite.scale_x)
+            self._flip = flip
+            self.update_sprite()
 
     def update_sprite(self):
-        self.sprite.position = tuple(self.position+self.sprite_offset)
+        pos = self.position+self.sprite_offset
+        if self.flip:
+            pos.x += self.sprite.width
+        self.sprite.position = tuple(pos)
 
     def delete(self):
         self.space = None

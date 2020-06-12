@@ -26,7 +26,7 @@ class Entity(pymunk.Body):
             for col in colliders:
                 self.add_collider(col)
         elif collider is not None:
-            self.add_collider(col)
+            self.add_collider(collider)
 
     @property
     def active(self):

@@ -88,8 +88,6 @@ class Application:
         x += position[0]
         y += position[1]
 
-        x, y = round(x), round(y)
-
         if self.world_camera.position != (x, y):
             self.world_camera.position = (x, y)
 

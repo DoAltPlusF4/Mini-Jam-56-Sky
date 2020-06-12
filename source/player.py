@@ -95,7 +95,6 @@ class Player(engine.Entity):
 
 
         self.velocity = (max(min(self.velocity.x, SPEED/2), -SPEED/2), self.velocity.y)
-        print(self.velocity.x)
 
         self.apply_force_at_local_point((vx, 0), (0, 0))
         

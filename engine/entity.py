@@ -66,13 +66,20 @@ class Entity(pymunk.Body):
 
     def create_sprite(self, image, offset, batch=None, group=None):
         self.sprite_offset = pymunk.Vec2d(offset)
-        self.sprite = pyglet.sprite.Sprite(
-            image,
-            x=self.position.x+self.sprite_offset.x,
-            y=self.position.y+self.sprite_offset.y,
-            batch=batch,
-            group=group
-        )
+        if isinstance(image, pyglet.shapes._ShapeBase):
+            self.sprite = image
+            self.sprite.batch = batch
+            self.sprite.group = group
+            self.sprite.x = self.position.x+self.sprite_offset.x
+            self.sprite.y = self.position.y+self.sprite_offset.y
+        else:
+            self.sprite = pyglet.sprite.Sprite(
+                image,
+                x=self.position.x+self.sprite_offset.x,
+                y=self.position.y+self.sprite_offset.y,
+                batch=batch,
+                group=group
+            )
 
     def update_sprite(self):
         self.sprite.position = tuple(self.position+self.sprite_offset)

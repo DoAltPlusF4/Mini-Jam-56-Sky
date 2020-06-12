@@ -49,6 +49,7 @@ class Application:
             min_zoom=0,
             max_zoom=float("inf")
         )
+        self.position_camera()
 
         self.ui_batch = pyglet.graphics.Batch()
         if fps_counter:
@@ -71,7 +72,6 @@ class Application:
 
     def update(self, dt):
         self.physics_space.step(dt)
-        self.position_camera()
 
     def position_camera(self, position: tuple = (0, 0)):
         zoom = min(

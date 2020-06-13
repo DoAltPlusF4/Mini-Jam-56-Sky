@@ -32,7 +32,6 @@ class Player(engine.Entity):
             "right": False,
             "jump": False
         }
-        self.jumping = False
     
     @property
     def state(self):
@@ -45,58 +44,61 @@ class Player(engine.Entity):
             self.sprite.image = self.application.resources["player"][state]
 
     def update(self, dt):
-        self.controls["left"] = self.application.key_handler[key.A]
-        self.controls["right"] = self.application.key_handler[key.D]
+        if self.state != "dead":
+            self.controls["left"] = self.application.key_handler[key.A]
+            self.controls["right"] = self.application.key_handler[key.D]
 
-        if self.controls["jump"]:
-            self.controls["jump"] -= dt
-            if self.controls["jump"] < 0:
-                self.controls["jump"] = False
-        if self.application.key_handler[key.SPACE] or self.application.key_handler[key.W]:
-            self.controls["jump"] = 0.05
-        
-        if self.controls["jump"] and self.velocity.y == 0 and not self.jumping:
-            self.controls["jump"] = False
-            self.apply_impulse_at_local_point((0, JUMP_VELOCITY))
-            self.jumping = True
-        
-        if self.jumping:
-            if self.velocity.y < 0:
-                self.jumping = False
-
+            if self.controls["jump"]:
+                self.controls["jump"] -= dt
+                if self.controls["jump"] < 0:
+                    self.controls["jump"] = False
             if self.application.key_handler[key.SPACE] or self.application.key_handler[key.W]:
-                pass
-            else:
-                self.apply_force_at_local_point((0, -500), (0, 0))
+                self.controls["jump"] = 0.02
             
+            if self.controls["jump"] and self.velocity.y == 0 and self.state != "jumping":
+                self.controls["jump"] = False
+                self.apply_impulse_at_local_point((0, JUMP_VELOCITY))
+                self.state = "jumping"
+            
+            if self.state == "jumping":
+                if self.velocity.y < 0:
+                    self.state = "idle"
 
-        if self.controls["left"] and not self.controls["right"]:
-            self.flip = True
-        if not self.controls["left"] and self.controls["right"]:
-            self.flip = False
-        
-        vx = 0
-        if self.controls["left"]:
-            vx -= SPEED
-        if self.controls["right"]:
-            vx += SPEED
-        
-        if vx != 0:
-            self.state = "walk"
-            self.colliders[0].friction = 1
-        else:
-            self.state = "idle"
-            self.colliders[0].friction = 15
-        
-        if self.velocity.x > 0 and self.controls["left"]:
-            self.colliders[0].friction = 15
-        elif self.velocity.x < 0 and self.controls["right"]:
-            self.colliders[0].friction = 15
+                if self.application.key_handler[key.SPACE] or self.application.key_handler[key.W]:
+                    pass
+                else:
+                    self.apply_force_at_local_point((0, -500), (0, 0))
+                
+
+            if self.controls["left"] and not self.controls["right"]:
+                self.flip = True
+            if not self.controls["left"] and self.controls["right"]:
+                self.flip = False
+            
+            vx = 0
+            if self.controls["left"]:
+                vx -= SPEED
+            if self.controls["right"]:
+                vx += SPEED
+            
+            if vx != 0:
+                if self.state != "jumping":
+                    self.state = "walk"
+                self.colliders[0].friction = 1
+            else:
+                if self.state != "jumping":
+                    self.state = "idle"
+                self.colliders[0].friction = 15
+            
+            if self.velocity.x > 0 and self.controls["left"]:
+                self.colliders[0].friction = 15
+            elif self.velocity.x < 0 and self.controls["right"]:
+                self.colliders[0].friction = 15
 
 
-        self.velocity = (max(min(self.velocity.x, SPEED/2), -SPEED/2), self.velocity.y)
+            self.velocity = (max(min(self.velocity.x, SPEED/2), -SPEED/2), self.velocity.y)
 
-        self.apply_force_at_local_point((vx, 0), (0, 0))
+            self.apply_force_at_local_point((vx, 0), (0, 0))
         
         self.update_sprite()
     

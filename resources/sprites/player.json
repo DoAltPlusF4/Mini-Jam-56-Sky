@@ -3,8 +3,20 @@
         32,
         32
     ],
-    "max_length": 2,
+    "max_length": 10,
     "animations": [
+        {
+            "alias": "dead",
+            "length": 10,
+            "frame_length": 0.1,
+            "loop": false
+        },
+        {
+            "alias": "jumping",
+            "length": 1,
+            "frame_length": 0,
+            "loop": false
+        },
         {
             "alias": "walk",
             "length": 2,

@@ -1,2 +1,2 @@
+from .chunk import CHUNKS, Chunk
 from .player import Player
-from .floor import Floor

@@ -20,17 +20,27 @@ class Application(engine.Application):
             world_layers=["player", "floor"],
             ui_layers=[]
         )
-        self._debug_mode = True
         pyglet.gl.glClearColor(0.25, 0.5, 1, 1)
 
         self.physics_space.gravity = (0, -100)
-        self.physics_space.damping = 0.5
 
-        self.floor = []
-        for x in range(-2, 3):
-            floor = source.Floor(x, random.randint(0, 1), self.physics_space)
-            floor.create_sprite(self)
-            self.floor.append(floor)
+        player_to_water = self.physics_space.add_collision_handler(0, 2)
+        def begin(arbiter, space, data):
+            self.player.state = "dead"
+            return False
+        player_to_water.begin = begin
+
+        self.chunks = {}
+        chunk = source.Chunk(0, self.physics_space)
+        chunk.create_sprite(self)
+        self.chunks[0] = chunk
+
+        possible_chunks = {name: colliders for name, colliders in source.CHUNKS.items() if name != "start"}
+        for x in range(1, 5):
+            chunk_type = random.choice(list(possible_chunks.keys()))
+            chunk = source.Chunk(x, self.physics_space, chunk_type=chunk_type)
+            chunk.create_sprite(self)
+            self.chunks[x] = chunk
 
         self.player = source.Player(self.physics_space)
         self.window.push_handlers(self.player)
@@ -47,14 +57,18 @@ class Application(engine.Application):
             player_data = json.load(f)
         self.resources["player"] = engine.load_animation(player_img, player_data)
 
-        self.resources["floor"] = pyglet.resource.image("resources/sprites/floor.png")
+        self.resources["chunks"] = {}
+        for chunk_type in source.CHUNKS.keys():
+            self.resources["chunks"][chunk_type] = pyglet.resource.image(f"resources/chunks/{chunk_type}.png")
     
     def update(self, dt):
         super().update(dt)
         self.player.update(dt)
+        if self.player.position.y < -128:
+            self.player.state = "dead"
         self.position_camera(
             position=self.player.position, zoom=2,
-            min_pos=(None, -50)
+            min_pos=(64, 32)
         )
 
 

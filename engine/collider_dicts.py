@@ -35,8 +35,8 @@ SEGMENT = {
 
 def rect(data):
     transform = pymunk.Transform(
-        tx=-data["width"]/2 - data["radius"],
-        ty=-data["height"]/2 - data["radius"]
+        tx=-data["width"]/2,
+        ty=-data["height"]/2
     )
     collider = pymunk.Poly(
         None,

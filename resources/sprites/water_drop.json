@@ -1,0 +1,21 @@
+{
+    "frame": [
+        32,
+        32
+    ],
+    "max_length": 9,
+    "animations": [
+        {
+            "alias": "hit",
+            "length": 9,
+            "frame_length": 0.05,
+            "loop": false
+        },
+        {
+            "alias": "falling",
+            "length": 1,
+            "frame_length": 0,
+            "loop": false
+        }
+    ]
+}

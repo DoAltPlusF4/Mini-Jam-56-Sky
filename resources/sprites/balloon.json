@@ -1,0 +1,27 @@
+{
+    "frame": [
+        80,
+        112
+    ],
+    "max_length": 10,
+    "animations": [
+        {
+            "alias": "refill",
+            "length": 4,
+            "frame_length": 0.25,
+            "loop": false
+        },
+        {
+            "alias": "throw_water",
+            "length": 10,
+            "frame_length": 0.125,
+            "loop": false
+        },
+        {
+            "alias": "idle",
+            "length": 4,
+            "frame_length": 0.25,
+            "loop": true
+        }
+    ]
+}

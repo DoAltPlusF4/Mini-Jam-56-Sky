@@ -39,6 +39,12 @@ class Player(engine.Entity):
         if state != self.state:
             self._state = state
             self.sprite.image = self.application.resources["player"][state]
+            if state == "dead":
+                if self.application.score > self.application.hi_score:
+                    self.application.hi_score = self.application.score
+                    self.application.high_score_text.text = "New Hi-Score!"
+                self.application.show_death_screen()
+                self.application.sounds["dead"].play()
 
     def update(self, dt):
         if self.state != "dead":
@@ -56,6 +62,7 @@ class Player(engine.Entity):
                 self.controls["jump"] = False
                 self.apply_impulse_at_local_point((0, JUMP_VELOCITY))
                 self.state = "jumping"
+                self.application.sounds["jump"].play()
 
             if self.state == "jumping":
                 if self.velocity.y < 0:

@@ -54,7 +54,8 @@ class Entity(pymunk.Body):
             self.space.remove(self, *self.colliders)
 
         self._space = space
-        self.space.add(self, *self.colliders)
+        if space is not None:
+            self.space.add(self, *self.colliders)
 
     def add_collider(self, collider):
         col = dict_to_collider(collider)

@@ -1,7 +1,10 @@
+import random
+
+import pyglet
 import pymunk
 
 import engine
-
+import source
 
 CHUNKS = {
     "start": [
@@ -174,9 +177,9 @@ CHUNKS = {
         {
             "type": "rect",
             "x": -64, "y": -63,
-            "width": 10,
-            "height": 10,
-            "radius": 3,
+            "width": 6,
+            "height": 6,
+            "radius": 5,
             "collision_type": 1
         },
         {
@@ -276,6 +279,14 @@ class Chunk(engine.Entity):
         self.space = space
         for col in self.colliders:
             col.friction = 0.5
+        if chunk_type != "start":
+            self.balloon = source.BucketBalloon(
+                self.space, x*256+random.randint(-128, 128), 128
+            )
+
+    def update(self, dt):
+        if hasattr(self, "balloon"):
+            self.balloon.update(dt)
 
     def create_sprite(self, application):
         self.application = application
@@ -285,3 +296,19 @@ class Chunk(engine.Entity):
             batch=self.application.world_batch,
             group=self.application.world_layers["floor"]
         )
+        cloud_img = random.choice(self.application.resources["clouds"])
+        self.cloud = pyglet.sprite.Sprite(
+            cloud_img,
+            self.position.x-180,
+            self.position.y-202,
+            batch=self.application.world_batch,
+            group=self.application.world_layers["clouds"]
+        )
+        if hasattr(self, "balloon"):
+            self.balloon.create_sprite(self.application)
+
+    def delete(self):
+        self.cloud.delete()
+        if hasattr(self, "balloon"):
+            self.balloon.delete()
+        super().delete()

@@ -74,8 +74,8 @@ class Application:
         self.physics_space.step(dt)
 
     def position_camera(
-        self, 
-        position: tuple = (0, 0), zoom: float = 1, 
+        self,
+        position: tuple = (0, 0), zoom: float = 1,
         min_pos: tuple = (None, None), max_pos: tuple = (None, None)
     ):
         zoom = min(
@@ -125,7 +125,7 @@ class Application:
             )
 
     def run(self):
-        pyglet.clock.schedule(self.update)
+        pyglet.clock.schedule_interval(self.update, 1/120)
         pyglet.app.run()
 
 

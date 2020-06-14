@@ -264,6 +264,122 @@ CHUNKS = {
             "radius": 0,
             "collision_type": 1
         }
+    ],
+    "hop": [
+        {
+            "type": "rect",
+            "x": -56, "y": -96,
+            "width": 144,
+            "height": 64,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": -48, "y": -56,
+            "width": 64,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": -16, "y": -24,
+            "width": 32,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 48, "y": -112,
+            "width": 64,
+            "height": 32,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 104, "y": -96,
+            "width": 48,
+            "height": 64,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 48, "y": -81.5,
+            "width": 64,
+            "height": 29,
+            "radius": 0,
+            "collision_type": 2
+        },
+        {
+            "type": "rect",
+            "x": 48, "y": -8,
+            "width": 32,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        }
+    ],
+    "river3": [
+        {
+            "type": "rect",
+            "x": -120, "y": -96,
+            "width": 16,
+            "height": 64,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 0, "y": -120,
+            "width": 224,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 120, "y": -96,
+            "width": 16,
+            "height": 64,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 0, "y": -89.5,
+            "width": 224,
+            "height": 45,
+            "radius": 0,
+            "collision_type": 2
+        },
+        {
+            "type": "rect",
+            "x": -56, "y": -72,
+            "width": 48,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 56, "y": -72,
+            "width": 48,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        },
+        {
+            "type": "rect",
+            "x": 0, "y": -40,
+            "width": 32,
+            "height": 16,
+            "radius": 0,
+            "collision_type": 1
+        }
     ]
 }
 
